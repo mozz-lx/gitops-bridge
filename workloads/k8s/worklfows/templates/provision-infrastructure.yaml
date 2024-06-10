@@ -44,7 +44,9 @@ spec:
       inputs:
         parameters:
           - name: REPO_URL
+            value: "{{workflow.parameters.REPO_URL}}"
           - name: GIT_BRANCH
+            value: "{{workflow.parameters.GIT_BRANCH}}"
       container:
         image: "054678736585.dkr.ecr.us-west-2.amazonaws.com/argo-workflows-internal:2"
         command: ["/bin/sh","-c"]
@@ -56,9 +58,13 @@ spec:
       inputs:
         parameters:
           - name: APPLICATION_NAME
+            value: "{{workflow.parameters.APPLICATION_NAME}}"
           - name: ROLE_NAME
+            value: "{{workflow.parameters.ROLE_NAME}}"
           - name: BUCKET_NAME
+            value: "{{workflow.parameters.BUCKET_NAME}}"
           - name: ARTIFACT_BUCKET
+            value: "{{workflow.parameters.ARTIFACT_BUCKET}}"
       container:
         image: "054678736585.dkr.ecr.us-west-2.amazonaws.com/argo-workflows-internal:2"
         command: ["/bin/sh","-c"]
