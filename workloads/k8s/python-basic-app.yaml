@@ -3,9 +3,6 @@ kind: Application
 metadata:
   name: python-basic-app
   namespace: argocd
-  annotations:
-    iam_role_arn: '{{lookup "v1" "Secret" "argocd" "python-basic-app-irsa" "data" "iam_role_arn" | b64dec}}'
-    bucket_name: '{{lookup "v1" "Secret" "argocd" "python-basic-app-irsa" "data" "bucket_name" | b64dec}}'
 spec:
   project: default
   source:
@@ -25,13 +22,11 @@ spec:
           type: LoadBalancer
           port: 80
         env:
-          S3_BUCKET_NAME: '{{metadata.annotations.bucket_name}}'
+          S3_BUCKET_NAME: 'python-basic-app-bucket-dhsgds'
         serviceAccount:
           create: true
           name: python-basic-app
-          annotations:
-            eks.amazonaws.com/role-arn: '{{metadata.annotations.iam_role_arn}}'
-          iamRoleArn: '{{metadata.annotations.iam_role_arn}}'
+          iamRoleArn: 'arn:aws:iam::054678736585:role/python-basic-app-role'
   destination:
     name: "in-cluster"
     namespace: python-basic-app
