@@ -12,7 +12,7 @@ spec:
         value: "https://github.com/lusoal/terraform-examples" # Default value
       - name: GIT_BRANCH
         value: "main" # Default value
-      - name: ARTIFACT_BUCKET 
+      - name: ARTIFACT_BUCKET
         value: "getting-started20240610210044198100000001" # Default value
       - name: APPLICATION_NAME
       - name: ROLE_NAME
@@ -49,11 +49,11 @@ spec:
             value: "{{workflow.parameters.GIT_BRANCH}}"
       container:
         image: "054678736585.dkr.ecr.us-west-2.amazonaws.com/argo-workflows-internal:2"
-        command: ["/bin/sh","-c"]
+        command: ["/bin/sh", "-c"]
         args: ['./01-clone-repository.sh', '{{inputs.parameters.REPO_URL}}', '{{inputs.parameters.GIT_BRANCH}}']
         volumeMounts:
         - name: workdir
-          mountPath: /mnt/vol 
+          mountPath: /mnt/vol
     - name: create-infrastructure
       inputs:
         parameters:
@@ -67,7 +67,7 @@ spec:
             value: "{{workflow.parameters.ARTIFACT_BUCKET}}"
       container:
         image: "054678736585.dkr.ecr.us-west-2.amazonaws.com/argo-workflows-internal:2"
-        command: ["/bin/sh","-c"]
+        command: ["/bin/sh", "-c"]
         args: ['./02-apply-terraform.sh', '{{inputs.parameters.APPLICATION_NAME}}', '{{inputs.parameters.ROLE_NAME}}', '{{inputs.parameters.BUCKET_NAME}}', '{{inputs.parameters.ARTIFACT_BUCKET}}']
         volumeMounts:
         - name: workdir
@@ -76,7 +76,7 @@ spec:
     - metadata:
         name: workdir
       spec:
-        accessModes: [ "ReadWriteOnce" ]
+        accessModes: ["ReadWriteOnce"]
         resources:
           requests:
             storage: 1Gi
