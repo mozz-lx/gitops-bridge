@@ -17,7 +17,7 @@ roleRef:
   name: full-permissions-cluster-role
 subjects:
   - kind: ServiceAccount
-    name: argo-workflows
+    name: argo-workflow
     namespace: argo-workflows
 ---
 apiVersion: argoproj.io/v1alpha1
