@@ -1,0 +1,55 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: provision-iac-bucket-irsa
+  namespace: default
+spec:
+  serviceAccountName: argo-workflow # SA with IRSA permissions
+  entrypoint: main
+  arguments:
+    parameters:
+      - name: REPO_URL
+      - name: GIT_BRANCH
+      - name: APPLICATION_NAME
+      - name: ROLE_NAME
+      - name: BUCKET_NAME
+  templates:
+    - name: main
+      steps:
+        - - name: clone-repository
+            template: clone-repository
+        - - name: create-infrastructure
+            template: create-infrastructure
+    - name: clone-repository
+      inputs:
+        parameters:
+          - name: REPO_URL
+          - name: GIT_BRANCH
+      container:
+        image: "054678736585.dkr.ecr.us-west-2.amazonaws.com/argo-workflows-internal:1"
+        command: ["/bin/sh","-c"]
+        args: ['./01-tenant-clone-repo.sh', '{{inputs.parameters.REPO_URL}}', '{{inputs.parameters.GIT_BRANCH}}']
+        volumeMounts:
+        - name: workdir
+          mountPath: /mnt/vol 
+    - name: create-infrastructure
+      inputs:
+        parameters:
+          - name: APPLICATION_NAME
+          - name: ROLE_NAME
+          - name: BUCKET_NAME
+      container:
+        image: "054678736585.dkr.ecr.us-west-2.amazonaws.com/argo-workflows-internal:1"
+        command: ["/bin/sh","-c"]
+        args: ['./02-apply-terraform.sh', '{{inputs.parameters.APPLICATION_NAME}}', '{{inputs.parameters.ROLE_NAME}}', '{{inputs.parameters.BUCKET_NAME}}']
+        volumeMounts:
+        - name: workdir
+          mountPath: /mnt/vol
+  volumeClaimTemplates:
+    - metadata:
+        name: workdir
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
