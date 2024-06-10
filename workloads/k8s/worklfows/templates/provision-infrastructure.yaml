@@ -12,45 +12,45 @@ spec:
       - name: GIT_BRANCH
         value: "main"
       - name: ARTIFACT_BUCKET
-        value: "getting-started2024061021004419810000001"
+        value: "getting-started20240610210044198100000001"
       - name: APPLICATION_NAME
       - name: ROLE_NAME
       - name: BUCKET_NAME
   templates:
     - name: main
       steps:
-        - name: clone-repository
-          template: clone-repository
-          arguments:
-            parameters:
-              - name: REPO_URL
-                value: "{{workflow.parameters.REPO_URL}}"
-              - name: GIT_BRANCH
-                value: "{{workflow.parameters.GIT_BRANCH}}"
-        - name: create-infrastructure
-          template: create-infrastructure
-          arguments:
-            parameters:
-              - name: APPLICATION_NAME
-                value: "{{workflow.parameters.APPLICATION_NAME}}"
-              - name: ROLE_NAME
-                value: "{{workflow.parameters.ROLE_NAME}}"
-              - name: BUCKET_NAME
-                value: "{{workflow.parameters.BUCKET_NAME}}"
-              - name: ARTIFACT_BUCKET
-                value: "{{workflow.parameters.ARTIFACT_BUCKET}}"
+        - - name: clone-repository
+            template: clone-repository
+            arguments:
+              parameters:
+                - name: REPO_URL
+                  value: "{{workflow.parameters.REPO_URL}}"
+                - name: GIT_BRANCH
+                  value: "{{workflow.parameters.GIT_BRANCH}}"
+        - - name: create-infrastructure
+            template: create-infrastructure
+            arguments:
+              parameters:
+                - name: APPLICATION_NAME
+                  value: "{{workflow.parameters.APPLICATION_NAME}}"
+                - name: ROLE_NAME
+                  value: "{{workflow.parameters.ROLE_NAME}}"
+                - name: BUCKET_NAME
+                  value: "{{workflow.parameters.BUCKET_NAME}}"
+                - name: ARTIFACT_BUCKET
+                  value: "{{workflow.parameters.ARTIFACT_BUCKET}}"
     - name: clone-repository
       inputs:
         parameters:
           - name: REPO_URL
           - name: GIT_BRANCH
       container:
-        image: 054678736585.dkr.ecr.us-west-2.amazonaws.com/argo-workflows-internal:3
+        image: "054678736585.dkr.ecr.us-west-2.amazonaws.com/argo-workflows-internal:3"
         command: ["/bin/sh", "-c"]
         args: ["./01-clone-repository.sh", "{{inputs.parameters.REPO_URL}}", "{{inputs.parameters.GIT_BRANCH}}"]
         volumeMounts:
         - name: workdir
-          mountPath: /mnt/vol
+          mountPath: /mnt/vol 
     - name: create-infrastructure
       inputs:
         parameters:
@@ -59,7 +59,7 @@ spec:
           - name: BUCKET_NAME
           - name: ARTIFACT_BUCKET
       container:
-        image: 054678736585.dkr.ecr.us-west-2.amazonaws.com/argo-workflows-internal:3
+        image: "054678736585.dkr.ecr.us-west-2.amazonaws.com/argo-workflows-internal:3"
         command: ["/bin/sh", "-c"]
         args: ["./02-apply-terraform.sh", "{{inputs.parameters.APPLICATION_NAME}}", "{{inputs.parameters.ROLE_NAME}}", "{{inputs.parameters.BUCKET_NAME}}", "{{inputs.parameters.ARTIFACT_BUCKET}}"]
         volumeMounts:
