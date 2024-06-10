@@ -30,9 +30,9 @@ spec:
           - name: REPO_URL
           - name: GIT_BRANCH
       container:
-        image: "054678736585.dkr.ecr.us-west-2.amazonaws.com/argo-workflows-internal:1"
+        image: "054678736585.dkr.ecr.us-west-2.amazonaws.com/argo-workflows-internal:2"
         command: ["/bin/sh","-c"]
-        args: ['./01-tenant-clone-repo.sh', '{{inputs.parameters.REPO_URL}}', '{{inputs.parameters.GIT_BRANCH}}']
+        args: ['./01-clone-repository.sh', '{{inputs.parameters.REPO_URL}}', '{{inputs.parameters.GIT_BRANCH}}']
         volumeMounts:
         - name: workdir
           mountPath: /mnt/vol 
@@ -42,10 +42,11 @@ spec:
           - name: APPLICATION_NAME
           - name: ROLE_NAME
           - name: BUCKET_NAME
+          - name: ARTIFACT_BUCKET
       container:
-        image: "054678736585.dkr.ecr.us-west-2.amazonaws.com/argo-workflows-internal:1"
+        image: "054678736585.dkr.ecr.us-west-2.amazonaws.com/argo-workflows-internal:2"
         command: ["/bin/sh","-c"]
-        args: ['./02-apply-terraform.sh', '{{inputs.parameters.APPLICATION_NAME}}', '{{inputs.parameters.ROLE_NAME}}', '{{inputs.parameters.BUCKET_NAME}}']
+        args: ['./02-apply-terraform.sh', '{{inputs.parameters.APPLICATION_NAME}}', '{{inputs.parameters.ROLE_NAME}}', '{{inputs.parameters.BUCKET_NAME}}', '{{inputs.parameters.ARTIFACT_BUCKET}}']
         volumeMounts:
         - name: workdir
           mountPath: /mnt/vol
