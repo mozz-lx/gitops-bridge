@@ -2,9 +2,10 @@ apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
   name: provision-iac-bucket-irsa
-  namespace: default
+  namespace: argo-workflows
 spec:
   entrypoint: main
+  serviceAccountName: argo-workflow
   arguments:
     parameters:
       - name: REPO_URL
