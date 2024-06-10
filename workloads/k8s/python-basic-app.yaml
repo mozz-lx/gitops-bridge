@@ -33,7 +33,7 @@ spec:
             eks.amazonaws.com/role-arn: '{{metadata.annotations.iam_role_arn}}'
           iamRoleArn: '{{metadata.annotations.iam_role_arn}}'
   destination:
-    server: 'https://kubernetes.default.svc'
+    name: "in-cluster"
     namespace: python-basic-app
   syncPolicy:
     automated:
