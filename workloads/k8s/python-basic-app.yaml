@@ -1,0 +1,43 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: python-basic-app
+  namespace: argocd
+  annotations:
+    iam_role_arn: '{{lookup "v1" "Secret" "argocd" "python-basic-app-irsa" "data" "iam_role_arn" | b64dec}}'
+    bucket_name: '{{lookup "v1" "Secret" "argocd" "python-basic-app-irsa" "data" "bucket_name" | b64dec}}'
+spec:
+  project: default
+  source:
+    repoURL: 'oci://054678736585.dkr.ecr.us-west-2.amazonaws.com/helm-charts/'
+    chart: 'python-application-chart'
+    targetRevision: 'latest'
+    helm:
+      values: |
+        name: python-basic-app
+        namespace: python-basic-app
+        replicaCount: 1
+        image:
+          repository: flask-app
+          tag: "latest"
+          pullPolicy: IfNotPresent
+        service:
+          type: LoadBalancer
+          port: 80
+        env:
+          S3_BUCKET_NAME: '{{metadata.annotations.bucket_name}}'
+        serviceAccount:
+          create: true
+          name: python-basic-app
+          annotations:
+            eks.amazonaws.com/role-arn: '{{metadata.annotations.iam_role_arn}}'
+          iamRoleArn: '{{metadata.annotations.iam_role_arn}}'
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: python-basic-app
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
