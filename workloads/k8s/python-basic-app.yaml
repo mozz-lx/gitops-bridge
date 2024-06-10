@@ -9,8 +9,8 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'oci://054678736585.dkr.ecr.us-west-2.amazonaws.com/helm-charts/'
-    chart: 'python-application-chart'
+    repoURL: 'oci://054678736585.dkr.ecr.us-west-2.amazonaws.com'
+    chart: 'helm-charts/python-application-chart'
     targetRevision: '0.1.0'
     helm:
       values: |
