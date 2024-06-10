@@ -19,7 +19,7 @@ spec:
           tag: "dev-hjdgs"
           pullPolicy: IfNotPresent
         service:
-          type: LoadBalancer
+          type: ClusterIP
           port: 80
         env:
           S3_BUCKET_NAME: 'python-basic-app-bucket-dhsgds'
