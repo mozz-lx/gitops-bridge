@@ -48,7 +48,7 @@ spec:
           - name: GIT_BRANCH
             value: "{{workflow.parameters.GIT_BRANCH}}"
       container:
-        image: "054678736585.dkr.ecr.us-west-2.amazonaws.com/argo-workflows-internal:2"
+        image: "054678736585.dkr.ecr.us-west-2.amazonaws.com/argo-workflows-internal:3"
         command: ["/bin/sh", "-c"]
         args: ['./01-clone-repository.sh', '{{inputs.parameters.REPO_URL}}', '{{inputs.parameters.GIT_BRANCH}}']
         volumeMounts:
@@ -66,7 +66,7 @@ spec:
           - name: ARTIFACT_BUCKET
             value: "{{workflow.parameters.ARTIFACT_BUCKET}}"
       container:
-        image: "054678736585.dkr.ecr.us-west-2.amazonaws.com/argo-workflows-internal:2"
+        image: "054678736585.dkr.ecr.us-west-2.amazonaws.com/argo-workflows-internal:3"
         command: ["/bin/sh", "-c"]
         args: ['./02-apply-terraform.sh', '{{inputs.parameters.APPLICATION_NAME}}', '{{inputs.parameters.ROLE_NAME}}', '{{inputs.parameters.BUCKET_NAME}}', '{{inputs.parameters.ARTIFACT_BUCKET}}']
         volumeMounts:
