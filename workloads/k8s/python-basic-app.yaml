@@ -9,7 +9,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'oci://054678736585.dkr.ecr.us-west-2.amazonaws.com/helm-charts/python-application-chart'
+    repoURL: 'https://lusoal.github.io/helm-charts-examples/'
     chart: 'python-application-chart'
     targetRevision: '0.1.0'
     helm:
