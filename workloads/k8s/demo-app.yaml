@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: demo-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://lusoal.github.io/helm-charts-examples/'
+    chart: 'python-application-chart'
+    targetRevision: '0.1.0'
+    helm:
+      values: |
+        name: demo-app
+        namespace: demo-app
+        replicaCount: 1
+        image:
+          repository: 014831291253.dkr.ecr.us-east-1.amazonaws.com/python-basic-app
+          tag: "latest"
+          pullPolicy: IfNotPresent
+        service:
+          type: ClusterIP
+          port: 80
+        env:
+          S3_BUCKET_NAME: 'random-bucket-name-lkasjfljkahlkjd'
+        serviceAccount:
+          create: true
+          name: demo-app
+          iamRoleArn: 'arn:aws:iam::014831291253:role/demo-app-role'
+  destination:
+    name: "in-cluster"
+    namespace: demo-app
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
