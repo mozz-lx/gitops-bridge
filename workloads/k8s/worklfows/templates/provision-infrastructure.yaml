@@ -47,7 +47,7 @@ spec:
           - name: REPO_URL
           - name: GIT_BRANCH
       container:
-        image: "014831291253.dkr.ecr.us-east-1.amazonaws.com/argo-workflows-internal:lates"
+        image: "014831291253.dkr.ecr.us-east-1.amazonaws.com/argo-workflows-internal:latest"
         command: ["/bin/sh", "-c"]
         args: ["./01-clone-repository.sh '{{inputs.parameters.REPO_URL}}' '{{inputs.parameters.GIT_BRANCH}}'"]
         volumeMounts:
