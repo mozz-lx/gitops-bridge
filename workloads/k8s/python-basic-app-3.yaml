@@ -29,7 +29,7 @@ spec:
           iamRoleArn: 'arn:aws:iam::054678736585:role/python-application-3-role'
   destination:
     name: "in-cluster"
-    namespace: python-basic-app-2
+    namespace: python-basic-app-3
   syncPolicy:
     automated:
       prune: true
