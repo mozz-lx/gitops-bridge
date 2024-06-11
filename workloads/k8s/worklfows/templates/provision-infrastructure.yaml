@@ -10,11 +10,11 @@ spec:
   arguments:
     parameters:
       - name: REPO_URL
-        value: "https://github.com/lusoal/terraform-examples"
+        value: "https://github.com/mozz-lx/terraform-examples"
       - name: GIT_BRANCH
         value: "main"
       - name: ARTIFACT_BUCKET
-        value: "getting-started20240610210044198100000001"
+        value: "getting-started20240611185036593600000005"
       - name: APPLICATION_NAME
       - name: ROLE_NAME
       - name: BUCKET_NAME
