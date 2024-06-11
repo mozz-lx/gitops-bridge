@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: python-basic-app
+  name: python-basic-app-2
   namespace: argocd
 spec:
   project: default
